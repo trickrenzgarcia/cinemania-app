@@ -1,0 +1,77 @@
+import getImagePath from '@/lib/getImagePath';
+import { getMovieDetails } from '@/lib/getMovies'
+import Image from 'next/image';
+import React from 'react'
+import moment from 'moment'
+
+type Props = {
+  params: {
+    id: number;
+  }
+}
+
+async function MoviePage( { params: {id} }: Props) {
+  const movie = await getMovieDetails(id);
+
+  console.log(movie)
+  const duration = moment.duration(movie.runtime, 'minutes')
+
+  return (
+    <main>
+      <div className='overflow-hidden lg:-mt-40 relative'>
+        <div className="flex">
+          <div className='flex-[0_0_100%] min-w-0 relative'>
+            <Image
+              src={getImagePath(movie.backdrop_path, true)}
+              alt={movie.title}
+              width={1920}
+              height={1080}
+            />
+            <div className='hidden lg:inline absolute mt-0 top-0 pt-40 xl:pt-52 left-0 lg:mt-40 bg-transparent z-20 h-full 
+                w-full bg-gradient-to-r from-gray-900/90 via-transparent to-transparent p-10 space-y-5 text-white'>
+                <h2 className='text-5xl font-bold max-w-xl z-50'>
+                  {movie.title}
+                </h2>
+                <p className='max-w-xl line-clamp-3'>
+                  {movie.overview}
+                </p>
+                <p>
+                  <b>Genre{movie.genres.length > 1 && 's'}: </b>
+                  {movie.genres.map((genre, i) => (
+                    <span key={genre.id}>{genre.name}{(movie.genres.length - 1) == i ? '' : ', '}</span>
+                  ))}
+                </p>
+                <p>
+                  <b>Runtime: </b>{`${duration.hours()}hr, ${duration.minutes()}mins`}
+                </p>
+                <p className='bg-green-500 w-fit px-3 py-1 rounded-md'>
+                  {movie.status}
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='mx-10 my-10 lg:hidden'>
+        <h1 className='text-2xl font-bold mb-4'>{movie.title}</h1>
+        <p className='max-w-xl line-clamp-3 mb-5'>
+          <b>Overview:</b> {movie.overview}
+        </p>
+        <p className='mb-3'>
+          <b>Genre{movie.genres.length > 1 && 's'}: </b>
+          {movie.genres.map((genre, i) => (
+            <span key={genre.id}>{genre.name}{(movie.genres.length - 1) == i ? '' : ', '}</span>
+          ))}
+        </p>
+        <p className='mb-3'>
+          <b>Runtime: </b>{`${duration.hours()}hr, ${duration.minutes()}mins`}
+        </p>
+        <p className='bg-green-500 w-fit px-3 py-1 rounded-md'>
+          {movie.status}
+        </p>
+      </div>
+    </main>
+  )
+}
+
+export default MoviePage
