@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
     apple: '/favicon.ico'
   },
-  manifest: '/site.webmanifest'
+  manifest: `${process.env.NEXT_PUBLIC_APP_URL}/site.webmanifest`
 }
 
 export default function RootLayout({
