@@ -45,6 +45,16 @@ export async function getMovieDetails(id: number, cacheTime?: number) {
   return data;
 }
 
+export async function getNowPlayingMovies() {
+  const url = new URL("https://api.themoviedb.org/3/movie/now_playing");
+
+  url.searchParams.set("region", "ph");
+
+  const data = await fetchFromTMDB(url);
+
+  return data.results;
+}
+
 export async function getUpcomingMovies() {
   const url = new URL("https://api.themoviedb.org/3/movie/upcoming");
   const data = await fetchFromTMDB(url);

@@ -3,6 +3,7 @@ import { getMovieDetails } from '@/lib/getMovies'
 import Image from 'next/image';
 import React from 'react'
 import moment from 'moment'
+import MovieReservation from '@/components/MovieReservation';
 
 type Props = {
   params: {
@@ -13,7 +14,6 @@ type Props = {
 async function MoviePage( { params: {id} }: Props) {
   const movie = await getMovieDetails(id);
 
-  console.log(movie)
   const duration = moment.duration(movie.runtime, 'minutes')
 
   return (
@@ -50,25 +50,34 @@ async function MoviePage( { params: {id} }: Props) {
             </div>
           </div>
         </div>
+
+        <div
+          className='absolute inset-0 bg-gradient-to-b from-gray-200/0 via-gray-900/25 to-gray-300 dark:to-[#1A1C29]'
+        />
       </div>
 
-      <div className='mx-10 my-10 lg:hidden'>
-        <h1 className='text-2xl font-bold mb-4'>{movie.title}</h1>
-        <p className='max-w-xl line-clamp-3 mb-5'>
-          <b>Overview:</b> {movie.overview}
-        </p>
-        <p className='mb-3'>
-          <b>Genre{movie.genres.length > 1 && 's'}: </b>
-          {movie.genres.map((genre, i) => (
-            <span key={genre.id}>{genre.name}{(movie.genres.length - 1) == i ? '' : ', '}</span>
-          ))}
-        </p>
-        <p className='mb-3'>
-          <b>Runtime: </b>{`${duration.hours()}hr, ${duration.minutes()}mins`}
-        </p>
-        <p className='bg-green-500 w-fit px-3 py-1 rounded-md'>
-          {movie.status}
-        </p>
+      <div className='mx-10 my-10'>
+        {/* <div className="lg:hidden">
+          <h1 className='text-2xl font-bold mb-4'>{movie.title}</h1>
+          <p className='max-w-xl line-clamp-3 mb-5'>
+            <b>Overview:</b> {movie.overview}
+          </p>
+          <p className='mb-3'>
+            <b>Genre{movie.genres.length > 1 && 's'}: </b>
+            {movie.genres.map((genre, i) => (
+              <span key={genre.id}>{genre.name}{(movie.genres.length - 1) == i ? '' : ', '}</span>
+            ))}
+          </p>
+          <p className='mb-3'>
+            <b>Runtime: </b>{`${duration.hours()}hr, ${duration.minutes()}mins`}
+          </p>
+          <p className='bg-green-500 w-fit px-3 py-1 rounded-md'>
+            {movie.status}
+          </p>
+        </div> */}
+        
+        {/* Movie Reservation */}
+        <MovieReservation />
       </div>
     </main>
   )
