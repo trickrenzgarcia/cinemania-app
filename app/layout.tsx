@@ -5,9 +5,9 @@ import Header from '@/components/Header'
 import { ThemeProvider } from '@/components/ThemeProvider'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`${process.env.NEXT_PUBLIC_APP_URL}`),
+  metadataBase: new URL('https://cinemania-app.vercel.app'),
   title: 'Cinemania | Movie Ticket & Seat Reservation',
-  description: 'A Cinema Reservation',
+  description: 'A Cinema Ticket & Seat Reservation',
   keywords: ['Next.js', 'Movie Reservation', 'Ticket & Seat Reservation'],
   authors: [
     {
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   creator: 'Patrick Renz Garcia',
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico'
+    shortcut: '/icon-256x256.png',
+    apple: '/icon-256x256.png',
   },
   manifest: `${process.env.NEXT_PUBLIC_APP_URL}/site.webmanifest`
 }
