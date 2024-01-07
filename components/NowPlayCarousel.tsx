@@ -30,8 +30,10 @@ function NowPlayCarousel({ title, movies, isVertical }: Props) {
           
           {movies.map((movie) => (
             <div className='flex lg:flex-[0_0_25%] min-w-0 relative flex-shrink-0 cursor-pointer transform hover:scale-105 hover:opacity-50 transition duration-200 ease-out hover:drop-shadow-lg' key={movie.id}>
+              <Link href={`/movie/${movie.id}`}>
               <div className='absolute inset-0 bg-gradient-to-b from-gray-200/0 via-gray-900/10 to-gray-300 dark:to-[#1A1C29]/80 z-10'/>
               <p className='absolute z-20 bottom-5 left-5'>{movie.title}</p>
+              
               <Image 
                 src={getImagePath(movie.poster_path)}
                 alt={movie.title}
@@ -39,6 +41,8 @@ function NowPlayCarousel({ title, movies, isVertical }: Props) {
                 height={600}
                 className=' object-cover object-center shadow-md mr-6 shadow-gray-800 drop-shadow-xl rounded-sm'
                 />
+              </Link>
+              
             </div>
           ))}
       </div>

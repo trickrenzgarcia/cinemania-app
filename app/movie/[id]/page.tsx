@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react'
 import moment from 'moment'
 import MovieReservation from '@/components/MovieReservation';
+import Link from 'next/link';
 
 type Props = {
   params: {
@@ -48,6 +49,11 @@ async function MoviePage( { params: {id} }: Props) {
                   {movie.status}
                 </p>
             </div>
+            <div className='hidden lg:inline absolute bottom-0 left-0 right-0 mx-auto w-fit z-20 mb-10'>
+              <Link href={`/ticket/${movie.id}`}>
+                <h2 className='py-4 px-7 inset-0 border hover:border-gray-300 rounded-full font-semibold text-2xl bg-rose-600'>Buy Tickets</h2>
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -57,7 +63,7 @@ async function MoviePage( { params: {id} }: Props) {
       </div>
 
       <div className='mx-10 my-10'>
-        {/* <div className="lg:hidden">
+        <div className="lg:hidden">
           <h1 className='text-2xl font-bold mb-4'>{movie.title}</h1>
           <p className='max-w-xl line-clamp-3 mb-5'>
             <b>Overview:</b> {movie.overview}
@@ -74,10 +80,17 @@ async function MoviePage( { params: {id} }: Props) {
           <p className='bg-green-500 w-fit px-3 py-1 rounded-md'>
             {movie.status}
           </p>
-        </div> */}
+
+          <div className='absolute bottom-0 left-0 right-0 mx-auto w-fit mb-6'>
+            <Link href={`/ticket/${movie.id}`}>
+              <h2 className='py-2 px-5 inset-0 border hover:border-gray-300 rounded-full font-semibold text-lg bg-rose-600'>Buy Tickets</h2>
+            </Link>
+          </div>
+          
+        </div>
         
         {/* Movie Reservation */}
-        <MovieReservation />
+        
       </div>
     </main>
   )

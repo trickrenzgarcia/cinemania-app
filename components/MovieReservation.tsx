@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { MdEventSeat  } from "react-icons/md";
 import { BsCheckCircleFill, BsXCircleFill  } from "react-icons/bs";
 import { RiArrowDownCircleFill } from "react-icons/ri";
+import Link from 'next/link';
 
 const timeArray: string[] = [
   '10:30',
@@ -18,6 +19,18 @@ type IDate = {
   date: number;
   day: string;
 }
+
+type Payment = {
+  name: string;
+  icon: JSX.Element;
+}
+
+const paymentsArray: Payment[] = [
+  {
+    name: 'GCash',
+    icon: <></>
+  }
+]
 
 const generateDate = (): IDate[] => {
   const date = new Date();
@@ -90,22 +103,53 @@ export default function MovieReservation() {
           setSelectedSeatArray(array);
         }
       }
-      setPrice(array.length * 5.0) // change the price
+      setPrice(array.length * 350) // change the price
       setSeat2DArray(temp);
     }
   }
 
   return (
-    <div className=''>
-      <h2 className='text-center text-2xl text-gray-700 mb-4'>SCREEN</h2>
-      <div>
+    <div className='w-[384px] lg:w-[600px] mx-auto'>
+        <h2 className='font-bold'>Select a Preferred Date:</h2>
+        <div className="grid grid-cols-4 lg:grid-cols-7 gap-3 my-6">
+          {dateArray.map((item, index) => (
+            <div 
+              key={item.date}
+              onClick={() => setSelectedDateIndex(index)}
+              className='bg-slate-200 dark:bg-slate-950 rounded-xl cursor-pointer'
+              >
+              <div className={`flex flex-col justify-center rounded-xl items-center py-3 ${index == selectedDateIndex && 'bg-rose-600 inset-0 border border-gray-300'}`}>
+                <h2 className='text-2xl font-bold'>{item.date}</h2>
+                <h2>{item.day}</h2>
+              </div>
+            </div>
+          ))}
+        </div>
+        <h2 className='font-bold mt-10'>What time would you like to watch?</h2>
+        <div className="grid grid-cols-4 lg:grid-cols-7 gap-3 w-[384px] lg:w-[600px] mx-auto my-6">
+          {timeArray.map((item, index) => (
+            <div 
+              key={index}
+              onClick={() => setSelectedTimeIndex(index)}
+              className='bg-slate-200 dark:bg-slate-950 rounded-full cursor-pointer'
+              >
+              <div className={`flex justify-center rounded-full items-center py-1 ${index == selectedTimeIndex && 'bg-rose-600 inset-0 border border-gray-300'}`}>
+                <h2>{item}</h2>
+              </div>
+            </div>
+          ))}
+        </div> 
+      
+      
+        <h2 className='text-center font-bold mt-10'>Select a Seat</h2>
+        <h2 className='text-center text-2xl text-gray-700 mb-4'>MOVIE SCREEN</h2>
         {seat2DArray?.map((item, index) => (
           <div key={index} className='flex justify-center flex-row gap-[20px]'>
             {item.map((subItem, subIndex) => (
               <div key={subItem.number} className='cursor-pointer' onClick={() => { selectSeat(index, subIndex, subItem.number)}}>
                 <div className={`flex flex-col text-2xl my-2 
                   ${subItem.taken ? 'text-gray-600' : {}}
-                  ${subItem.selected ? 'text-orange-500' : {}}
+                  ${subItem.selected ? 'text-rose-600' : {}}
                   `}>
                 <MdEventSeat />
                 </div>
@@ -113,7 +157,6 @@ export default function MovieReservation() {
             ))}
           </div>
         ))}
-      </div>
       
       <div className='flex w-full justify-center my-5'>
         <div className="flex w-[384px] justify-between">
@@ -122,7 +165,7 @@ export default function MovieReservation() {
             <h1>Available</h1>
           </div>
           <div className="flex flex-row items-center gap-1">
-            <span className='text-orange-500'><RiArrowDownCircleFill /></span>
+            <span className='text-rose-600'><RiArrowDownCircleFill /></span>
             <h1>Selected</h1>
           </div>
           <div className="flex flex-row items-center gap-1">
@@ -130,8 +173,22 @@ export default function MovieReservation() {
             <h1>Taken</h1>
           </div>
         </div>
-        
       </div>
+
+      <h2 className='font-bold mt-10'>Payment</h2>
+
+      <div className="flex justify-between">
+        <div>
+          <h2>Total Price</h2>
+          <h2 className='text-3xl font-bold'>₱ {price}.00</h2>
+        </div>
+        <div className='flex items-center rounded-xl font-semibold text-lg bg-rose-600 w-40 justify-center'>
+          <Link href={``}>
+            Buy Ticket
+          </Link>
+        </div>
+      </div>
+
     </div>
   )
 }
