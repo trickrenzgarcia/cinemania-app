@@ -1,10 +1,22 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MdEventSeat  } from "react-icons/md";
 import { BsCheckCircleFill, BsXCircleFill  } from "react-icons/bs";
 import { RiArrowDownCircleFill } from "react-icons/ri";
 import Link from 'next/link';
+import Image from 'next/image';
+import { Input } from './ui/input';
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { Button } from './ui/button';
+import { AlertCircle } from "lucide-react"
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { useRouter } from 'next/navigation';
 
 const timeArray: string[] = [
   '10:30',
@@ -22,13 +34,13 @@ type IDate = {
 
 type Payment = {
   name: string;
-  icon: JSX.Element;
+  logo: string;
 }
 
 const paymentsArray: Payment[] = [
   {
     name: 'GCash',
-    icon: <></>
+    logo: '/assets/gcash.svg'
   }
 ]
 
@@ -79,7 +91,9 @@ const generateSeats = () => {
 };
 
 
-export default function MovieReservation() {
+export default function MovieReservation({ id } : { id: number }) {
+  const router = useRouter();
+  const [isNotValidEmail, setIsNotValidEmail] = useState<boolean | null>(null);
   const [dateArray, setDateArray] = useState<IDate[]>(generateDate());
   const [selectedDateIndex, setSelectedDateIndex] = useState<any>();
   const [price, setPrice] = useState<number>(0);
@@ -87,6 +101,9 @@ export default function MovieReservation() {
   const [seat2DArray, setSeat2DArray] = useState<any[][]>(generateSeats());
   const [selectedSeatArray, setSelectedSeatArray] = useState([]);
   const [selectedTimeIndex, setSelectedTimeIndex] = useState<any>();
+
+  const [selectedPaymentIndex, setSelectedPaymentIndex] = useState<number | null>(null);
+  const [email, setEmail] = useState<string>('');
 
   const selectSeat = (index: number, subIndex: number, num: number) => {
     if(!seat2DArray[index][subIndex].taken) {
@@ -105,6 +122,29 @@ export default function MovieReservation() {
       }
       setPrice(array.length * 350) // change the price
       setSeat2DArray(temp);
+    }
+  }
+
+  const handleEmailOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }
+
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const isValidEmail = /\S+@\S+\.\S+/.test(email);
+
+    if(isValidEmail) {
+      setIsNotValidEmail(false);
+
+      const day = dateArray[selectedDateIndex].day;
+      const date = dateArray[selectedDateIndex].date;
+      const time = timeArray[selectedTimeIndex];
+      const seats = selectedSeatArray.join(', ');
+
+      router.push(`/gcash/${id}?day=${day}&date=${date}&time=${time}&seats=${seats}&email=${email}&total=${price}`);
+      
+    } else {
+      setIsNotValidEmail(true);
     }
   }
 
@@ -175,18 +215,49 @@ export default function MovieReservation() {
         </div>
       </div>
 
-      <h2 className='font-bold mt-10'>Payment</h2>
+      <h2 className='font-bold mt-10 mb-2'>Select Payments</h2>
+      <div className="flex">
+        {paymentsArray.map((item, index) => (
+          <div key={index} 
+            className={`flex cursor-pointer px-3 rounded-lg py-1 pr-4 items-center gap-2 ${index == selectedPaymentIndex ? 'bg-blue-600' : 'bg-slate-800'}`}
+            onClick={() => setSelectedPaymentIndex((prev) => prev == null ? index : prev == index ? null : prev)}>
+            <Image
+              src={item.logo}
+              alt={item.name}
+              width={50}
+              height={50}
+            />
+            <h2 className='text-2xl font-semibold'>{item.name}</h2>
+          </div>
+        ))}
+      </div>
 
-      <div className="flex justify-between">
+      <h2 className='font-bold mt-10 mb-2'>Email</h2>
+
+      <Input type='email' placeholder='Enter your email here...' value={email} onChange={handleEmailOnChange}/>
+
+      {isNotValidEmail && (
+        <Alert variant="destructive" className='mt-4'>
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            You Entered Invalid Email. Please enter valid email ex. juandelacruz@gmail.com
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="flex justify-between my-10">
         <div>
           <h2>Total Price</h2>
           <h2 className='text-3xl font-bold'>₱ {price}.00</h2>
         </div>
-        <div className='flex items-center rounded-xl font-semibold text-lg bg-rose-600 w-40 justify-center'>
-          <Link href={``}>
+        <form onSubmit={handleOnSubmit}className={`flex items-center rounded-xl font-semibold text-lg  w-40 justify-center
+            ${selectedDateIndex != null && selectedTimeIndex != null && price != 0 && selectedPaymentIndex != null && email != '' ? 'bg-rose-600' : 'bg-gray-700 cursor-not-allowed'}`}
+            >
+          <button className='w-full h-full rounded-xl' disabled={selectedDateIndex != null && selectedTimeIndex != null && price != 0 && selectedPaymentIndex != null && email != '' ? false : true }>
             Buy Ticket
-          </Link>
-        </div>
+          </button>
+        </form>
       </div>
 
     </div>
