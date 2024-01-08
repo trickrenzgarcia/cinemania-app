@@ -1,0 +1,13 @@
+POST http://localhost:3000/api/email HTTP/1.1
+Content-Type: 'application/json'
+
+{
+  "movieId": 787699,
+  "email": "trickrenzgarcia@gmail.com",
+  "day": 5,
+  "date": "Thu",
+  "time": "13:30",
+  "seats": "5, 2, 3",
+  "stat": "PAID",
+  "total": 1050
+}
