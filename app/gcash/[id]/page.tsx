@@ -48,7 +48,7 @@ export default function GCashPayment({ params: {id}, searchParams: {day, date, t
       }
       
     } catch (error) {
-      
+      redirect('/')
     }
     
   }
