@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 import React from 'react'
 
 type Props = {
@@ -34,23 +35,35 @@ export default function GCashPayment({ params: {id}, searchParams: {day, date, t
       stat: formData.get('stat')
     }
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(rawFormData),
-      })
+    const validPhone = /^(09|\+639)\d{9}$/.test(formData.get('phone')?.toString() || "");
 
-      if(response) {
+    if(validPhone) {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(rawFormData),
+        })
+  
+        if(response) {
+          redirect('/')
+        }
+        
+      } catch (error) {
         redirect('/')
       }
-      
-    } catch (error) {
-      redirect('/')
+    } else {
+      toast("Event has been created", {
+        description: "Sunday, December 03, 2023 at 9:00 AM",
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
+      })
+      console.log("invalid phone")
     }
-    
   }
 
   return (
