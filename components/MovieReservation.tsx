@@ -90,6 +90,17 @@ const generateSeats = () => {
   return rowArray;
 };
 
+const colSeats: string[] = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+]
 
 export default function MovieReservation({ id } : { id: number }) {
   const router = useRouter();
@@ -105,13 +116,14 @@ export default function MovieReservation({ id } : { id: number }) {
   const [selectedPaymentIndex, setSelectedPaymentIndex] = useState<number | null>(null);
   const [email, setEmail] = useState<string>('');
 
+
   const selectSeat = (index: number, subIndex: number, num: number) => {
     if(!seat2DArray[index][subIndex].taken) {
       let array: any = [...selectedSeatArray];
       let temp = [...seat2DArray];
       temp[index][subIndex].selected = !temp[index][subIndex].selected;
       if(!array.includes(num)){
-        array.push(num);
+        array.push(colSeats[subIndex]+num);
         setSelectedSeatArray(array);
       } else {
         const tempIndex = array.indexOf(num);
