@@ -48,11 +48,11 @@ export default function GCashPayment({ params: {id}, searchParams: {day, date, t
         })
   
         if(response) {
-          redirect(`/gcash/success?message=Your phone number is invalid.&total=${total}`)
+          redirect(`/gcash/success?message=We have sent an email.&total=${total}`)
         }
         
       } catch (error) {
-        redirect(`/gcash/success?message=Your phone number is invalid.&total=${total}`)
+        redirect(`/gcash/success?message=We have sent an email.&total=${total}`)
       }
     } else {
       redirect(`/gcash/error?message=Your phone number is invalid.&total=${total}`)
