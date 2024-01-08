@@ -9,17 +9,7 @@ export async function POST(req: Request) {
   const { movieId, email, phone, day, date, time, seats, stat, total } =
     await req.json();
 
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const client = require("twilio")(accountSid, authToken);
-
   try {
-    const result = await client.messages.create({
-      body: `Dear User, Congratulations you've successfully purchase a ticket check your email <${email}> you can enjoy your movie in ${date} ${day}, See you there!`,
-      from: "+18778456866",
-      to: phone,
-    });
-
     const response = await resend.emails.send({
       from: "Cinemania <onboarding@resend.dev>",
       to: email,
@@ -36,10 +26,7 @@ export async function POST(req: Request) {
       }),
     });
 
-    return NextResponse.json({
-      email: response,
-      phone: result,
-    });
+    return NextResponse.json(response);
   } catch (error) {
     return NextResponse.json({ error });
   }
