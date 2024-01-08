@@ -231,7 +231,7 @@ export default function MovieReservation({ id } : { id: number }) {
       <div className="flex">
         {paymentsArray.map((item, index) => (
           <div key={index} 
-            className={`flex cursor-pointer px-3 rounded-lg py-1 pr-4 items-center gap-2 ${index == selectedPaymentIndex ? 'bg-blue-600' : 'bg-slate-800'}`}
+            className={`flex cursor-pointer px-3 rounded-lg py-1 pr-4 items-center gap-2 ${index == selectedPaymentIndex ? 'bg-blue-600' : 'bg-gray-200 dark:bg-slate-800'}`}
             onClick={() => setSelectedPaymentIndex((prev) => prev == null ? index : prev == index ? null : prev)}>
             <Image
               src={item.logo}
@@ -264,7 +264,7 @@ export default function MovieReservation({ id } : { id: number }) {
           <h2 className='text-3xl font-bold'>₱ {price}.00</h2>
         </div>
         <form onSubmit={handleOnSubmit}className={`flex items-center rounded-xl font-semibold text-lg  w-40 justify-center
-            ${selectedDateIndex != null && selectedTimeIndex != null && price != 0 && selectedPaymentIndex != null && email != '' ? 'bg-rose-600' : 'bg-gray-700 cursor-not-allowed'}`}
+            ${selectedDateIndex != null && selectedTimeIndex != null && price != 0 && selectedPaymentIndex != null && email != '' ? 'bg-rose-600' : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed'}`}
             >
           <button className='w-full h-full rounded-xl' disabled={selectedDateIndex != null && selectedTimeIndex != null && price != 0 && selectedPaymentIndex != null && email != '' ? false : true }>
             Buy Ticket
