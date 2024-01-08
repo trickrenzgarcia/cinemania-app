@@ -49,7 +49,7 @@ const Email = async ({ movieId, email, day, date, time, seats, stat, total }: Em
             <Text 
               className='font-medium text-center'
             >{movie.title}</Text>
-            <Container className='w-full p-5'>
+            <Container className='w-full p-11'>
               <Column className='w-[60%]'>
                 <Row>
                   <Text className='text-gray-500'>DATE</Text>
@@ -72,13 +72,15 @@ const Email = async ({ movieId, email, day, date, time, seats, stat, total }: Em
               </Column>
               
             </Container>
-            <Container className='w-full mx-auto'>
+            <Container className='w-full mx-auto p-5'>
               <Img
                 src='https://cinemania-app.vercel.app/assets/qr-code.png'
                 alt='QR Code'
                 width={256}
                 height={256}
+                className='mx-auto rounded-lg'
               />
+              <Text className='text-2xl text-rose-600 font-bold text-right'>₱ {total}.00</Text>
             </Container>
           </Container>
         </Body>
