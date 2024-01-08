@@ -74,7 +74,7 @@ const Email = async ({ movieId, email, day, date, time, seats, stat, total }: Em
             </Container>
             <Container className='w-full mx-auto'>
               <Img
-                src='/assets/qr-code.png'
+                src='https://cinemania-app.vercel.app/assets/qr-code.png'
                 alt='QR Code'
                 width={256}
                 height={256}
