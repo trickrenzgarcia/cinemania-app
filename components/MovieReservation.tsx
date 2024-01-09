@@ -123,7 +123,7 @@ export default function MovieReservation({ id } : { id: number }) {
       let temp = [...seat2DArray];
       temp[index][subIndex].selected = !temp[index][subIndex].selected;
       if(!array.includes(num)){
-        array.push(colSeats[subIndex]+num);
+        array.push(num);
         setSelectedSeatArray(array);
       } else {
         const tempIndex = array.indexOf(num);
@@ -139,6 +139,7 @@ export default function MovieReservation({ id } : { id: number }) {
 
   const handleEmailOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    console.log(email);
   }
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
